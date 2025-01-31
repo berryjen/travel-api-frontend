@@ -2,13 +2,19 @@ import { useState } from "react";
 import "./App.css";
 import NewVisit from "./components/new-visit";
 import ViewVisit from "./components/view-visit";
+import LoginPage from "./components/login-page";
 
 function App() {
+  const [userName, setUserName] = useState(null);
   return (
     <div>
-      <NewVisit userName="user1" country="Canada" />
-
-      <ViewVisit userName="user2" country="Canada" />
+      {userName === null ? (
+      <LoginPage userName={userName} setUserName={setUserName} /> 
+      ) : (
+        
+          <><NewVisit userName={userName} country="" /><ViewVisit userName={userName} country="Canada" /></>
+        
+      )}
     </div>
   );
 }
