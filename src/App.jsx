@@ -3,17 +3,21 @@ import "./App.css";
 import NewVisit from "./components/new-visit";
 import ViewVisit from "./components/view-visit";
 import LoginPage from "./components/login-page";
+import LogoutButton from "./components/logout-button";
 
 function App() {
   const [userName, setUserName] = useState(null);
+
   return (
-    <div>
-      {userName === null ? (
-      <LoginPage userName={userName} setUserName={setUserName} /> 
+    <div className="app-container">
+      {!userName ? (
+        <LoginPage setUserName={setUserName} />
       ) : (
-        
-          <><NewVisit userName={userName} country="" /><ViewVisit userName={userName} country="Canada" /></>
-        
+        <div className="main-content">
+          <NewVisit userName={userName} />
+          <ViewVisit userName={userName} />
+          <LogoutButton setUserName={setUserName} />
+        </div>
       )}
     </div>
   );
