@@ -4,8 +4,8 @@ const LoginPage = ({ setUserName }) => {
   const [inputName, setInputName] = useState('');
 
   const getToken = async () => {
-    // need to configure the backend authorization to allow request to this endpt without authentication
-    const url = `http://localhost:3000/api/tokens?user_name=${inputName}`;
+    // need to configure the backend authorization to allow request to this endpt without authentication (done)
+    const url = `http://localhost:3000/api/tokens/${inputName}`;
     try {
       const response = await fetch(url);
       if (!response.ok) {
