@@ -13,7 +13,11 @@ const LoginPage = ({ setUserName }) => {
       }
   
       const json = await response.json();
-      console.log(json);
+      console.log("token received",json);
+      if (json.bearer_token) {
+        console.log(json.userName);
+        setUserName(inputName);
+      }
     } catch (error) {
       console.error(error.message);
     }
