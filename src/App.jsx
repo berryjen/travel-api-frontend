@@ -4,6 +4,7 @@ import NewVisit from "./components/new-visit";
 import ViewVisit from "./components/view-visit";
 import LoginPage from "./components/login-page";
 import LogoutButton from "./components/logout-button";
+import SignupPage from "./components/singup-page";
 
 function App() {
   const [userName, setUserName] = useState(null);
@@ -12,6 +13,7 @@ function App() {
     <div className="app-container">
       {!userName ? (
         <LoginPage setUserName={setUserName} />
+        // <SignupPage setUserName={setUserName} />
       ) : (
         <div className="main-content">
           <NewVisit userName={userName} />

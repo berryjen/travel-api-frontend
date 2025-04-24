@@ -1,38 +1,23 @@
 import { useState } from "react";
 
-const LoginPage = ({ setUserName }) => {
+const SignupPage = ({ setUserName }) => {
   const [inputName, setInputName] = useState('');
   const [inputEmail, setInputEmail] = useState('');
   const [inputPassword, setInputPassword] = useState('');
 
+const registerUser = async () => {
+    // where userName, email & password are passed to the backend
+    // have to call backend /api/authentication/register 
+}
 
-  const getToken = async () => {
-    // need to configure the backend authorization to allow request to this endpt without authentication (done)
-    const url = `http://localhost:3000/api/tokens/${inputName}`;
-    try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error(`Response status: ${response.status}`);
-      }
-  
-      const json = await response.json();
-      console.log("token received",json);
-      if (json.bearer_token) {
-        console.log(json.userName);
-        setUserName(inputName);
-      }
-    } catch (error) {
-      console.error(error.message);
-    }
-  }
-  
   const handleSubmit = (e) => {
     e.preventDefault();
-    getToken()
+    // getToken()
+    registerUser()
   };
 
   return (
-    <div className="login-container">
+    <div className="name-container">
       <form onSubmit={handleSubmit}>
         <label htmlFor="userName">
           Enter your name:
@@ -44,7 +29,7 @@ const LoginPage = ({ setUserName }) => {
             placeholder="Type your name here"
           />
         </label>
-      <div>
+    <div className="email-container">
         <label htmlFor="userEmail">
           Enter your email:
           <input
@@ -53,27 +38,28 @@ const LoginPage = ({ setUserName }) => {
             value={inputEmail}
             onChange={(e) => setInputEmail(e.target.value)}
             placeholder="Type your email here"
-          />
+            />
         </label>
-      </div>
+    </div>
 
-      <div>
-      <label htmlFor="userPassword">
+    <div>
+        <label htmlFor="userPassword">
           Enter your password:
           <input
             type="password"
             id="userPassword"
             value={inputPassword}
             onChange={(e) => setInputPassword(e.target.value)}
-            placeholder="Type your passowrd here"
+            placeholder="Type your password here"
           />
         </label>
-      </div>
-
-        <button type="submit">Login</button>
+    </div>
+        <button type="submit">Signup</button>
       </form>
     </div>
+    
+
   );
 };
 
-export default LoginPage;
+export default SignupPage;
