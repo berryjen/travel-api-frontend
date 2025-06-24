@@ -12,8 +12,8 @@ function App() {
   return (
     <div className="app-container">
       {!userName ? (
-        <LoginPage setUserName={setUserName} />
-        // <SignupPage setUserName={setUserName} />
+        //<LoginPage setUserName={setUserName} />
+        <SignupPage setUserName={setUserName} />
       ) : (
         <div className="main-content">
           <NewVisit userName={userName} />
