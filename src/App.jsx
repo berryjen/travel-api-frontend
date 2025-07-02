@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./App.css";
 import NewVisit from "./components/new-visit";
 import ViewVisit from "./components/view-visit";
-import LoginPage from "./components/login-page";
+// import LoginPage from "./components/login-page";
 import LogoutButton from "./components/logout-button";
 import SignupPage from "./components/singup-page";
 
@@ -12,7 +12,7 @@ function App() {
   return (
     <div className="app-container">
       {!userName ? (
-        //<LoginPage setUserName={setUserName} />
+        // <LoginPage setUserName={setUserName} />
         <SignupPage setUserName={setUserName} />
       ) : (
         <div className="main-content">

@@ -4,15 +4,23 @@ const SignupPage = ({ setUserName }) => {
   const [inputName, setInputName] = useState('');
   const [inputEmail, setInputEmail] = useState('');
   const [inputPassword, setInputPassword] = useState('');
+  const [error, setError] = useState(null);
 
 const registerUser = async () => {
     // where userName, email & password are passed to the backend
     // have to call backend /api/authentication/register 
     // specify it's POST that is used in fetch
     // pass in the JSON object with the specific data
-    const url = `http://localhost:3000/api/authentication/register/`;
+    const url = `http://localhost:3000/api/authentication/register`;
     try {
-      const response = await fetch(url);
+      const response = await fetch(url, {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({ 
+        username: inputName, 
+        email: inputEmail, 
+        password: inputPassword })
+      });
       if (!response.ok) {
         throw new Error(`Response status: ${response.status}`);
       }
@@ -25,14 +33,19 @@ const registerUser = async () => {
       }
     } catch (error) {
       console.error(error.message);
+      throw error;
     }
   
 }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // getToken()
-    registerUser()
+    try {
+      await registerUser();
+    } catch (error) {
+      setError();
+    }
   };
 
   return (
