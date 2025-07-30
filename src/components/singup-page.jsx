@@ -17,18 +17,19 @@ const registerUser = async () => {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify({ 
-        username: inputName, 
-        email: inputEmail, 
-        password: inputPassword })
+        name: inputName, 
+        userEmail: inputEmail,
+        userPassword: inputPassword })
       });
       if (!response.ok) {
-        throw new Error(`Response status: ${response.status}`);
+        const errorData = await response.json();
+        alert(errorData.error || `Response status: ${response.status}`);
       }
   
       const json = await response.json();
       console.log("user created",json);
       if (json.bearer_token) {
-        console.log(json.userName);
+        console.log('Login successful, token received',json.userName);
         setUserName(inputName);
       }
     } catch (error) {
@@ -40,7 +41,8 @@ const registerUser = async () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // getToken()
+    setError(null); 
+    
     try {
       await registerUser();
     } catch (error) {
@@ -51,6 +53,7 @@ const registerUser = async () => {
   return (
     <div className="name-container">
       <form onSubmit={handleSubmit}>
+          {error && <p style={{ color: 'red' }}>{error}</p>}
         <label htmlFor="userName">
           Enter your name:
           <input
@@ -59,6 +62,7 @@ const registerUser = async () => {
             value={inputName}
             onChange={(e) => setInputName(e.target.value)}
             placeholder="Type your name here"
+            required
           />
         </label>
     <div className="email-container">
@@ -70,6 +74,7 @@ const registerUser = async () => {
             value={inputEmail}
             onChange={(e) => setInputEmail(e.target.value)}
             placeholder="Type your email here"
+            required
             />
         </label>
     </div>
