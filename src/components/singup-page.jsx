@@ -28,10 +28,7 @@ const registerUser = async () => {
   
       const json = await response.json();
       console.log("user created",json);
-      if (json.bearer_token) {
-        console.log('Login successful, token received',json.userName);
-        setUserName(inputName);
-      }
+      setUserName(inputName);
     } catch (error) {
       console.error(error.message);
       throw error;
