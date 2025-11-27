@@ -1,5 +1,8 @@
 import { useState } from "react";
-export default function NewVisit({ userName }) {
+import LogoutButton from "./logout-button";
+
+export default function NewVisit({ userName, setUserName }) {
+  console.log('new visit user name', userName, setUserName);
   const [formData, setFormData] = useState({
     country_id: "",
     arrival_time: "",
@@ -53,6 +56,7 @@ export default function NewVisit({ userName }) {
 
         <button type="submit">Submit</button>
       </form>
+      <LogoutButton setUserName={setUserName} />
     </>
   );
 }

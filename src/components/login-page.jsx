@@ -1,34 +1,44 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = ({ setUserName }) => {
+  const navigate = useNavigate();
   const [inputName, setInputName] = useState('');
   const [inputEmail, setInputEmail] = useState('');
   const [inputPassword, setInputPassword] = useState('');
 
 
-  const getToken = async () => {
-    // need to configure the backend authorization to allow request to this endpt without authentication (done)
-    const url = `http://localhost:3000/api/tokens/${inputName}`;
+  const login = async () => {
+    const url = `http://localhost:3000/api/authentication/login`;
     try {
-      const response = await fetch(url);
+      const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: inputName,
+          userEmail: inputEmail,
+          userPassword: inputPassword
+        })
+      });
       if (!response.ok) {
         throw new Error(`Response status: ${response.status}`);
       }
-  
+
       const json = await response.json();
-      console.log("token received",json);
-      if (json.bearer_token) {
-        console.log(json.userName);
-        setUserName(inputName);
+      console.log('login JSON', json);
+      if (json.user.name) {
+        console.log(json.user.name);
+        setUserName(json.user.name);
+        navigate('/new-visit');
       }
     } catch (error) {
       console.error(error.message);
     }
   }
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    getToken()
+    login()
   };
 
   return (
@@ -44,31 +54,31 @@ const LoginPage = ({ setUserName }) => {
             placeholder="Type your name here"
           />
         </label>
-      <div>
-        <label htmlFor="userEmail">
-          Enter your email:
-          <input
-            type="email"
-            id="userEmail"
-            value={inputEmail}
-            onChange={(e) => setInputEmail(e.target.value)}
-            placeholder="Type your email here"
-          />
-        </label>
-      </div>
+        <div>
+          <label htmlFor="userEmail">
+            Enter your email:
+            <input
+              type="email"
+              id="userEmail"
+              value={inputEmail}
+              onChange={(e) => setInputEmail(e.target.value)}
+              placeholder="Type your email here"
+            />
+          </label>
+        </div>
 
-      <div>
-      <label htmlFor="userPassword">
-          Enter your password:
-          <input
-            type="password"
-            id="userPassword"
-            value={inputPassword}
-            onChange={(e) => setInputPassword(e.target.value)}
-            placeholder="Type your passowrd here"
-          />
-        </label>
-      </div>
+        <div>
+          <label htmlFor="userPassword">
+            Enter your password:
+            <input
+              type="password"
+              id="userPassword"
+              value={inputPassword}
+              onChange={(e) => setInputPassword(e.target.value)}
+              placeholder="Type your passowrd here"
+            />
+          </label>
+        </div>
 
         <button type="submit">Login</button>
       </form>
