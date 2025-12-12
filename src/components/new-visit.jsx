@@ -12,8 +12,19 @@ export default function NewVisit({ userName, setUserName }) {
     const { name, value } = event.target;
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
+    console.log('handle submit new visit', formData);
+    const response = await fetch(`http://localhost:3000/api/visits`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(formData),
+    });
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+    const json = await response.json();
+    console.log(json);
   };
   return (
     <>
@@ -54,7 +65,7 @@ export default function NewVisit({ userName, setUserName }) {
           />
         </label>
 
-        <button type="submit">Submit</button>
+        <button type="submit" >Submit</button>
       </form>
       <LogoutButton setUserName={setUserName} />
     </>

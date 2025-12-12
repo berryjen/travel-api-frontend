@@ -41,8 +41,12 @@ const LoginPage = ({ setUserName }) => {
     login()
   };
 
+  const handleSignUpClick = () => {
+    navigate('/signup')
+  };
   return (
     <div className="login-container">
+
       <form onSubmit={handleSubmit}>
         <label htmlFor="userName">
           Enter your name:
@@ -81,6 +85,7 @@ const LoginPage = ({ setUserName }) => {
         </div>
 
         <button type="submit">Login</button>
+        <button type="button" onClick={handleSignUpClick}>Sign Up</button>
       </form>
     </div>
   );
