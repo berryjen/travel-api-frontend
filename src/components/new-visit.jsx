@@ -19,6 +19,7 @@ export default function NewVisit({ userName, setUserName }) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
+      credentials: "include",
     });
     if (!response.ok) {
       throw new Error(`Response status: ${response.status}`);
