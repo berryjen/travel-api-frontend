@@ -15,17 +15,23 @@ export default function NewVisit({ userName, setUserName }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log('handle submit new visit', formData);
-    const response = await fetch(`http://localhost:3000/api/visits`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(formData),
-      credentials: "include",
-    });
-    if (!response.ok) {
-      throw new Error(`Response status: ${response.status}`);
+    try {
+      const response = await fetch(`http://localhost:3000/api/visits`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+        credentials: "include",
+      });
+      if (!response.ok) {
+        throw new Error(`Response status: ${response.status}`);
+      }
+      const json = await response.json();
+
+      console.log(json);
     }
-    const json = await response.json();
-    console.log(json);
+    catch (error) {
+      console.error(error);
+    }
   };
   return (
     <>

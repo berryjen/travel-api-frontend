@@ -17,7 +17,8 @@ const LoginPage = ({ setUserName }) => {
         body: JSON.stringify({
           name: inputName,
           userEmail: inputEmail,
-          userPassword: inputPassword
+          userPassword: inputPassword,
+          credentials: "include",
         })
       });
       if (!response.ok) {
