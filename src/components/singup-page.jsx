@@ -8,11 +8,7 @@ const SignupPage = ({ setUserName }) => {
   const [error, setError] = useState(null);
 
   const registerUser = async () => {
-    // where userName, email & password are passed to the backend
-    // have to call backend /api/authentication/register 
-    // specify it's POST that is used in fetch
-    // pass in the JSON object with the specific data
-    const url = `http://localhost:3000/api/authentication/register`;
+    const url = `/api/authentication/register`;
     try {
       const response = await fetch(url, {
         method: "POST",

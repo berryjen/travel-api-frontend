@@ -16,7 +16,7 @@ export default function NewVisit({ userName, setUserName }) {
     event.preventDefault();
     console.log('handle submit new visit', formData);
     try {
-      const response = await fetch(`http://localhost:3000/api/visits`, {
+      const response = await fetch(`/api/visits`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
