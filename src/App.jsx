@@ -20,19 +20,6 @@ function App() {
         <Route path='/view-visit' element={<ViewVisit userName={userName} />} />
         <Route path='/logout' element={<LogoutButton setUserName={setUserName} />} />
       </Routes>
-
-      {/* <div className="app-container"> */}
-      {/* {!userName ? (
-          <LoginPage setUserName={setUserName} /> ||
-          <SignupPage setUserName={setUserName} />
-        ) : (
-          <div className="main-content">
-            <NewVisit userName={userName} />
-            <ViewVisit userName={userName} />
-            <LogoutButton setUserName={setUserName} />
-          </div>
-        )} */}
-      {/* </div></> */}
     </Router>
   );
 }

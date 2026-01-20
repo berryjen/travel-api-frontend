@@ -1,5 +1,7 @@
 import { useState } from "react";
 import LogoutButton from "./logout-button";
+import CountriesAutocomplete from "./countries-autocompletion";
+import awesomplete from "awesomplete";
 
 export default function NewVisit({ userName, setUserName }) {
   console.log('new visit user name', userName, setUserName);
@@ -10,6 +12,7 @@ export default function NewVisit({ userName, setUserName }) {
   });
   const handleChange = (event) => {
     const { name, value } = event.target;
+    console.log('handle change', name, value, formData);
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
   const handleSubmit = async (event) => {
@@ -40,14 +43,15 @@ export default function NewVisit({ userName, setUserName }) {
       <form onSubmit={handleSubmit}>
         <label htmlFor="country">
           Enter country:{" "}
-          <input
+          {/* <input
             type="text"
             id="country"
             name="country_id"
             required
             value={formData.name}
             onChange={handleChange}
-          />
+          /> */}
+          <CountriesAutocomplete country={formData.name} handleChange={handleChange} />
         </label>
         <label htmlFor="arrivalTime">
           Enter arrival time:
