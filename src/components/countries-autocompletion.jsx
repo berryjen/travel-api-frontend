@@ -5,7 +5,7 @@ function CountriesAutocomplete({ country, handleChange }) {
     const [allCountries, setAllCountries] = useState([]);
     useEffect(() => {
         if (allCountries.length > 0) return;
-        fetch('api/countries')
+        fetch('api/countries/autocomplete')
             .then(response => response.json())
             .then(data => setAllCountries(data));
         const autocompleteInput = document.getElementById('country');
