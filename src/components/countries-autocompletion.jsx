@@ -5,7 +5,7 @@ function CountriesAutocomplete({ country, handleChange }) {
     const [allCountries, setAllCountries] = useState([]);
     useEffect(() => {
         if (allCountries.length > 0) return;
-        fetch('http://localhost:3000/api/countries')
+        fetch('api/countries')
             .then(response => response.json())
             .then(data => setAllCountries(data));
         const autocompleteInput = document.getElementById('country');
@@ -13,6 +13,7 @@ function CountriesAutocomplete({ country, handleChange }) {
         //     const { name, value } = event.target;
         //     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
         // };
+        console.log("Creating Awesomplete with list:", allCountries)
         new Awesomplete(autocompleteInput, {
             list: allCountries,
             data: (item) => {
