@@ -15,6 +15,7 @@ export default function NewVisit({ userName, setUserName }) {
     console.log('handle change', name, value, formData);
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log('handle submit new visit', formData);
@@ -51,7 +52,7 @@ export default function NewVisit({ userName, setUserName }) {
             value={formData.name}
             onChange={handleChange}
           /> */}
-          <CountriesAutocomplete country={formData.name} handleChange={handleChange} />
+          <CountriesAutocomplete />
         </label>
         <label htmlFor="arrivalTime">
           Enter arrival time:
