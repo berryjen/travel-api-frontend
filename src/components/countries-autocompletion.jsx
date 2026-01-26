@@ -1,48 +1,50 @@
-import { useEffect, useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Awesomplete from "awesomplete";
+import '../awesomeplete.css';
 
 function CountriesAutocomplete() {
-    // const [allCountries, setAllCountries] = useState([]);
-    // useEffect(() => {
-    //     if (allCountries.length > 0) return;
-    //     fetch('api/countries/autocomplete')
-    //         .then(response => response.json())
-    //         .then(data => setAllCountries(data));
-    //     const autocompleteInput = document.getElementById('country');
+    const [allCountries, setAllCountries] = useState([]);
+    const inputRef = useRef(null); // Reference to the input element
+    console.log(inputRef);
+    const awesompleteRef = useRef(null); // To store the Awesomplete instance
 
-    // new Awesomplete(autocompleteInput, {
-    //     list: allCountries,
-    //     data: (item) => {
-    //         return {
-    //             label: item.name,
-    //             value: item.id,
-    //         };
-    //     },
-    //     minChars: 1,
-    //     autoFirst: true,
-    // });
-    // }, [allCountries, handleChange]);
-    const [country, setCountry] = useState('');
-    const base_url = `api/countries/autocomplete`;
+    useEffect(() => {
+        fetch('api/countries')
+            .then(response => response.json())
+            .then(data => {
+                setAllCountries(data);
+            })
+            .catch(err => console.error("Fetch error:", err));
+    }, []);
 
-    const handleChange = async (event) => {
-        const { name, value } = event.target;
-        console.log('handle change', name, value);
-        setCountry(value);
-        const url = `${base_url}?name=${value}`;
-        const response = await fetch(url);
-        const data = await response.json();
-        console.log('data', data);
-    };
+    useEffect(() => {
+        if (!inputRef.current || allCountries.length === 0) return;
+
+        if (!awesompleteRef.current) {
+            awesompleteRef.current = new Awesomplete(inputRef.current, {
+                minChars: 1,
+                autoFirst: true,
+                data: (item) => ({
+                    label: item.name,
+                    value: item.name,
+                }),
+            });
+        }
+
+        awesompleteRef.current.list = allCountries;
+
+    }, [allCountries]);
+
     return (
-        < input
-            type="text"
-            id="country"
-            name="country_id"
-            required
-            value={country}
-            onChange={handleChange}
-        />
+        <div className="autocomplete-wrapper">
+            <label htmlFor="country"></label>
+            <input
+                ref={inputRef}
+                id="country"
+                className="awesomplete"
+                placeholder="Type a country..."
+            />
+        </div>
     );
 }
 

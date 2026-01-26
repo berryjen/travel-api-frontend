@@ -44,14 +44,6 @@ export default function NewVisit({ userName, setUserName }) {
       <form onSubmit={handleSubmit}>
         <label htmlFor="country">
           Enter country:{" "}
-          {/* <input
-            type="text"
-            id="country"
-            name="country_id"
-            required
-            value={formData.name}
-            onChange={handleChange}
-          /> */}
           <CountriesAutocomplete />
         </label>
         <label htmlFor="arrivalTime">
