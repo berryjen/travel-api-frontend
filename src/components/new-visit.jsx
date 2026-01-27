@@ -1,7 +1,7 @@
 import { useState } from "react";
 import LogoutButton from "./logout-button";
 import CountriesAutocomplete from "./countries-autocompletion";
-import awesomplete from "awesomplete";
+// import awesomplete from "awesomplete";
 
 export default function NewVisit({ userName, setUserName }) {
   console.log('new visit user name', userName, setUserName);
