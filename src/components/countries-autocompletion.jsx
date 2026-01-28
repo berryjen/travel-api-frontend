@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import Awesomplete from "awesomplete";
 import '../awesomeplete.css';
 
-function CountriesAutocomplete() {
+function CountriesAutocomplete({ onChange }) {
     const [allCountries, setAllCountries] = useState([]);
     const inputRef = useRef(null); // Reference to the input element
     console.log(inputRef);
@@ -26,14 +26,23 @@ function CountriesAutocomplete() {
                 autoFirst: true,
                 data: (item) => ({
                     label: item.name,
-                    value: item.name,
+                    value: item.id,
                 }),
+                replace: function (suggestion) {
+                    onChange({
+                        target: {
+                            name: 'country_id',
+                            value: suggestion.value,
+                        }
+                    });
+                    this.input.value = suggestion.label;
+                },
             });
         }
 
         awesompleteRef.current.list = allCountries;
 
-    }, [allCountries]);
+    }, [allCountries, onChange]);
 
     return (
         <div className="autocomplete-wrapper">
@@ -43,6 +52,7 @@ function CountriesAutocomplete() {
                 id="country"
                 className="awesomplete"
                 placeholder="Type a country..."
+                name="country_id"
             />
         </div>
     );

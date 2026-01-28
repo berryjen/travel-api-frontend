@@ -12,13 +12,11 @@ export default function NewVisit({ userName, setUserName }) {
   });
   const handleChange = (event) => {
     const { name, value } = event.target;
-    console.log('handle change', name, value, formData);
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    console.log('handle submit new visit', formData);
     try {
       const response = await fetch(`/api/visits`, {
         method: "POST",
@@ -44,7 +42,7 @@ export default function NewVisit({ userName, setUserName }) {
       <form onSubmit={handleSubmit}>
         <label htmlFor="country">
           Enter country:{" "}
-          <CountriesAutocomplete />
+          <CountriesAutocomplete onChange={handleChange} />
         </label>
         <label htmlFor="arrivalTime">
           Enter arrival time:
