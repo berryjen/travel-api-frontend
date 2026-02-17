@@ -13,11 +13,11 @@ const LoginPage = ({ setUserName }) => {
       const response = await fetch(url, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: "include",
         body: JSON.stringify({
           name: inputName,
           userEmail: inputEmail,
           userPassword: inputPassword,
-          credentials: "include",
         })
       });
       if (!response.ok) {
@@ -44,6 +44,7 @@ const LoginPage = ({ setUserName }) => {
   const handleSignUpClick = () => {
     navigate('/signup')
   };
+
   return (
     <div className="login-container">
 
