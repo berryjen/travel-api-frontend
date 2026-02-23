@@ -10,6 +10,7 @@ export default function NewVisit({ userName, setUserName }) {
     arrival_time: "",
     departure_time: "",
   });
+  const [resetKey, setResetKey] = useState(0);
   const [statusMessage, setStatusMessage] = useState(null);
 
   const handleChange = (event) => {
@@ -24,6 +25,7 @@ export default function NewVisit({ userName, setUserName }) {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    let handled = false;
     try {
       const response = await fetch(`/api/visits`, {
         method: "POST",
@@ -35,22 +37,21 @@ export default function NewVisit({ userName, setUserName }) {
         const errorData = await response.json().catch(() => null);
         const errorText = errorData?.message || `Request failed with status ${response.status}`;
         showMessage(errorText, "error");
+        handled = true;
         throw new Error(errorText);
       }
       const json = await response.json();
-
-      console.log(json);
-
       showMessage(json.message || "Visit created successfully!", "success");
       setFormData({
         country_id: "",
         arrival_time: "",
         departure_time: "",
       });
+      setResetKey((prev) => prev + 1);
     }
     catch (error) {
       console.error(error);
-      if (!statusMessage || statusMessage.type !== "error") {
+      if (!handled) {
         showMessage("Something went wrong. Please try again.", "error");
       }
     }
@@ -59,10 +60,26 @@ export default function NewVisit({ userName, setUserName }) {
     <>
       <h1>Hi {userName}, you have travelled to the following places:</h1>
       <ul></ul>
+      {statusMessage && (
+        <div
+          role="alert"
+          style={{
+            padding: "12px 16px",
+            marginBottom: "16px",
+            borderRadius: "6px",
+            fontWeight: "bold",
+            color: statusMessage.type === "success" ? "#155724" : "#721c24",
+            backgroundColor: statusMessage.type === "success" ? "#d4edda" : "#f8d7da",
+            border: `1px solid ${statusMessage.type === "success" ? "#c3e6cb" : "#f5c6cb"}`,
+          }}
+        >
+          {statusMessage.text}
+        </div>
+      )}
       <form onSubmit={handleSubmit}>
         <label htmlFor="country">
           Enter country:{" "}
-          <CountriesAutocomplete onChange={handleChange} />
+          <CountriesAutocomplete key={resetKey} onChange={handleChange} />
         </label>
         <label htmlFor="arrivalTime">
           Enter arrival time:
@@ -71,7 +88,7 @@ export default function NewVisit({ userName, setUserName }) {
             id="arrivalTime"
             name="arrival_time"
             required
-            value={formData.name}
+            value={formData.arrival_time}
             onChange={handleChange}
           />
         </label>
@@ -82,12 +99,12 @@ export default function NewVisit({ userName, setUserName }) {
             id="departureTime"
             name="departure_time"
             required
-            value={formData.name}
+            value={formData.departure_time}
             onChange={handleChange}
           />
         </label>
 
-        <button type="submit" >Submit</button>
+        <button type="submit">Submit</button>
       </form>
       <LogoutButton setUserName={setUserName} />
     </>
