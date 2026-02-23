@@ -10,9 +10,16 @@ export default function NewVisit({ userName, setUserName }) {
     arrival_time: "",
     departure_time: "",
   });
+  const [statusMessage, setStatusMessage] = useState(null);
+
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+  };
+
+  const showMessage = (text, type) => {
+    setStatusMessage({ text, type });
+    setTimeout(() => setStatusMessage(null), 5000);
   };
 
   const handleSubmit = async (event) => {
@@ -25,14 +32,27 @@ export default function NewVisit({ userName, setUserName }) {
         credentials: "include",
       });
       if (!response.ok) {
-        throw new Error(`Response status: ${response.status}`);
+        const errorData = await response.json().catch(() => null);
+        const errorText = errorData?.message || `Request failed with status ${response.status}`;
+        showMessage(errorText, "error");
+        throw new Error(errorText);
       }
       const json = await response.json();
 
       console.log(json);
+
+      showMessage(json.message || "Visit created successfully!", "success");
+      setFormData({
+        country_id: "",
+        arrival_time: "",
+        departure_time: "",
+      });
     }
     catch (error) {
       console.error(error);
+      if (!statusMessage || statusMessage.type !== "error") {
+        showMessage("Something went wrong. Please try again.", "error");
+      }
     }
   };
   return (
