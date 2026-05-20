@@ -20,7 +20,6 @@ const SignupPage = ({ setUserName }) => {
         userEmail: inputEmail,
         userPassword: inputPassword,
       }),
-
     });
 
     if (!response.ok) {
@@ -34,9 +33,38 @@ const SignupPage = ({ setUserName }) => {
       throw new Error(errorMessage);
     }
 
+    await response.json();
+  }
+
+  // Log the user in after registration to establish a session cookie
+  const loginUser = async () => {
+    const url = `/api/authentication/login`;
+    const response = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({
+        name: inputName,
+        userEmail: inputEmail,
+        userPassword: inputPassword,
+      }),
+    });
+
+    if (!response.ok) {
+      let errorMessage = `Login after signup failed: ${response.status}`;
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.error || errorData.message || errorMessage;
+      } catch {
+        // non-JSON response
+      }
+      throw new Error(errorMessage);
+    }
+
     const json = await response.json();
-    console.log("user created", json);
-    setUserName(inputName);
+    if (json.user && json.user.name) {
+      setUserName(json.user.name);
+    }
   }
 
   const handleSubmit = async (e) => {
@@ -45,6 +73,7 @@ const SignupPage = ({ setUserName }) => {
 
     try {
       await registerUser();
+      await loginUser();
       // Show success popup, then navigate after a short delay
       setShowSuccess(true);
       setTimeout(() => {
