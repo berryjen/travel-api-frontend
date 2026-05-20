@@ -14,16 +14,24 @@ const SignupPage = ({ setUserName }) => {
     const response = await fetch(url, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
+      credentials: "include",
       body: JSON.stringify({
         name: inputName,
         userEmail: inputEmail,
-        userPassword: inputPassword
-      })
+        userPassword: inputPassword,
+      }),
+
     });
 
     if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.error || `Response status: ${response.status}`);
+      let errorMessage = `Response status: ${response.status}`;
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.error || errorMessage;
+      } catch {
+        // Response body wasn't valid JSON (e.g. proxy error / empty body)
+      }
+      throw new Error(errorMessage);
     }
 
     const json = await response.json();
@@ -40,7 +48,7 @@ const SignupPage = ({ setUserName }) => {
       // Show success popup, then navigate after a short delay
       setShowSuccess(true);
       setTimeout(() => {
-        navigate('/view-visit');
+        navigate('/new-visit');
       }, 2000);
     } catch (error) {
       setError(error.message || 'Signup failed. Please try again.');
@@ -106,7 +114,7 @@ const SignupPage = ({ setUserName }) => {
   );
 };
 
-/* ---------- Popup inline styles ---------- */
+
 const overlayStyle = {
   position: 'fixed',
   top: 0,
