@@ -39,7 +39,7 @@ function App() {
       <Routes>
         <Route path='/' element={<LoginPage setUserName={setUserName} />} />
         <Route path='/login' element={<LoginPage setUserName={setUserName} />} />
-        <Route path='/signup' element={<SignupPage setUserName={setUserName} />} />
+        {/* <Route path='/signup' element={<SignupPage setUserName={setUserName} />} /> */}
         <Route path='/new-visit' element={<NewVisit userName={userName} setUserName={setUserName} />} />
         <Route path='/view-visit' element={<ViewVisit userName={userName} />} />
         <Route path='/logout' element={<LogoutButton setUserName={setUserName} />} />

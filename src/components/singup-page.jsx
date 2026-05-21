@@ -33,7 +33,10 @@ const SignupPage = ({ setUserName }) => {
       throw new Error(errorMessage);
     }
 
-    await response.json();
+    const json = await response.json();
+    if (json.user && json.user.name) {
+      setUserName(json.user.name);
+    }
   }
 
   // Log the user in after registration to establish a session cookie
@@ -54,7 +57,7 @@ const SignupPage = ({ setUserName }) => {
       let errorMessage = `Login after signup failed: ${response.status}`;
       try {
         const errorData = await response.json();
-        errorMessage = errorData.error || errorData.message || errorMessage;
+        errorMessage = errorData.error || errorMessage;
       } catch {
         // non-JSON response
       }
@@ -73,8 +76,7 @@ const SignupPage = ({ setUserName }) => {
 
     try {
       await registerUser();
-      await loginUser();
-      // Show success popup, then navigate after a short delay
+      // await loginUser();
       setShowSuccess(true);
       setTimeout(() => {
         navigate('/new-visit');

@@ -6,6 +6,9 @@ const LoginPage = ({ setUserName }) => {
   const [inputName, setInputName] = useState('');
   const [inputEmail, setInputEmail] = useState('');
   const [inputPassword, setInputPassword] = useState('');
+  const [error, setError] = useState(null);
+  const [showSuccess, setShowSuccess] = useState(false);
+
 
   const login = async () => {
     const url = `/api/authentication/login`;
@@ -35,20 +38,63 @@ const LoginPage = ({ setUserName }) => {
       console.error(error.message);
     }
   }
+  const registerUser = async () => {
+    const url = `/api/authentication/register`;
+    const response = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      credentials: "include",
+      body: JSON.stringify({
+        name: inputName,
+        userEmail: inputEmail,
+        userPassword: inputPassword,
+      }),
+    });
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    login()
-  };
+    if (!response.ok) {
+      let errorMessage = `Response status: ${response.status}`;
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.error || errorMessage;
+      } catch {
+        // Response body wasn't valid JSON (e.g. proxy error / empty body)
+      }
+      throw new Error(errorMessage);
+    }
 
-  const handleSignUpClick = () => {
-    navigate('/signup')
+    const json = await response.json();
+    if (json.user && json.user.name) {
+      setUserName(json.user.name);
+    }
+  }
+
+  const handleSignUpClick = async () => {
+    // setError(null);
+
+    try {
+      await registerUser();
+      // await loginUser();
+      // setShowSuccess(true);
+      setTimeout(() => {
+        navigate('/new-visit');
+      }, 2000);
+    } catch (error) {
+      // setError(error.message || 'Signup failed. Please try again.');
+    }
   };
 
   return (
     <div className="login-container">
+      {showSuccess && (
+        <div style={overlayStyle}>
+          <div style={popupStyle}>
+            <p style={popupTextStyle}>✅ You have successfully signed up!</p>
+            <p style={popupSubTextStyle}>Redirecting you now...</p>
+          </div>
+        </div>
+      )}
 
-      <form onSubmit={handleSubmit}>
+      < form >
         <label htmlFor="userName">
           Enter your name:
           <input
@@ -85,10 +131,10 @@ const LoginPage = ({ setUserName }) => {
           </label>
         </div>
 
-        <button type="submit">Login</button>
+        <button type="button" onClick={login}>Login</button>
         <button type="button" onClick={handleSignUpClick}>Sign Up</button>
       </form>
-    </div>
+    </div >
   );
 };
 
