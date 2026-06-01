@@ -138,4 +138,39 @@ const LoginPage = ({ setUserName }) => {
   );
 };
 
+const overlayStyle = {
+  position: 'fixed',
+  top: 0,
+  left: 0,
+  width: '100vw',
+  height: '100vh',
+  backgroundColor: 'rgba(0, 0, 0, 0.45)',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  zIndex: 1000,
+};
+
+const popupStyle = {
+  backgroundColor: '#fff',
+  borderRadius: '12px',
+  padding: '2rem 2.5rem',
+  boxShadow: '0 8px 30px rgba(0, 0, 0, 0.2)',
+  textAlign: 'center',
+  animation: 'fadeIn 0.3s ease',
+};
+
+const popupTextStyle = {
+  fontSize: '1.25rem',
+  fontWeight: 600,
+  color: '#1a1a1a',
+  margin: '0 0 0.5rem',
+};
+
+const popupSubTextStyle = {
+  fontSize: '0.95rem',
+  color: '#666',
+  margin: 0,
+};
+
 export default LoginPage;
