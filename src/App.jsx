@@ -4,7 +4,6 @@ import NewVisit from "./components/new-visit";
 import ViewVisit from "./components/view-visit";
 import LoginPage from "./components/login-page";
 import LogoutButton from "./components/logout-button";
-import SignupPage from "./components/singup-page";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
