@@ -4,6 +4,7 @@ import NewVisit from "./components/new-visit";
 import ViewVisit from "./components/view-visit";
 import LoginPage from "./components/login-page";
 import LogoutButton from "./components/logout-button";
+import UserDeactivateDelete from "./components/user-deactivate-delete";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -38,10 +39,10 @@ function App() {
       <Routes>
         <Route path='/' element={<LoginPage setUserName={setUserName} />} />
         <Route path='/login' element={<LoginPage setUserName={setUserName} />} />
-        {/* <Route path='/signup' element={<SignupPage setUserName={setUserName} />} /> */}
         <Route path='/new-visit' element={<NewVisit userName={userName} setUserName={setUserName} />} />
         <Route path='/view-visit' element={<ViewVisit userName={userName} />} />
         <Route path='/logout' element={<LogoutButton setUserName={setUserName} />} />
+        <Route path='/user-deactivate-delete' element={<UserDeactivateDelete setUserName={setUserName} />} />
       </Routes>
     </Router>
   );
