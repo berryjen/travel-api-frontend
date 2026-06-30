@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { deactivateAccount, deleteAccount } from '../api/userLifecycle';
-import './user-deactivate-delete.css'; // optional extracted styles
+import { deactivateAccount, deleteAccount } from '../API/userLifecycle';
 
 const UserDeactivateDelete = ({ setUserName }) => {
     const navigate = useNavigate();
